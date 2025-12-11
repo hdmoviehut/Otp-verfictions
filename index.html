@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h2>Send OTP</h2>
+  <input id="phone" placeholder="+947XXXXXXXX">
+  <button onclick="sendOTP()">Send OTP</button>
+
+  <h2>Verify OTP</h2>
+  <input id="otp" placeholder="Enter OTP">
+  <button onclick="verifyOTP()">Verify</button>
+
+  <p id="result"></p>
+
+<script>
+async function sendOTP() {
+  let phone = document.getElementById("phone").value;
+
+  let res = await fetch("/send-otp", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ phone })
+  });
+
+  let data = await res.json();
+  alert(data.message);
+}
+
+async function verifyOTP() {
+  let phone = document.getElementById("phone").value;
+  let otp = document.getElementById("otp").value;
+
+  let res = await fetch("/verify-otp", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ phone, otp })
+  });
+
+  let data = await res.json();
+  document.getElementById("result").innerText = data.message;
+}
+</script>
+
+</body>
+</html>
